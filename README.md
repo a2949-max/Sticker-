@@ -1,0 +1,82 @@
+import tkinter as tk
+from tkinter import ttk, filedialog, messagebox
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+import os
+import random
+from datetime import datetime
+
+class StickerGenerator:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Gerador de Figurinhas Redbubble PRO")
+        self.root.geometry("1000x700")
+        self.root.configure(bg='#2c3e50')
+        
+        # Cores Redbubble populares
+        self.colors = {
+            'Preto': '#000000',
+            'Branco': '#FFFFFF',
+            'Vermelho': '#e74c3c',
+            'Azul': '#3498db',
+            'Roxo': '#9b59b6',
+            'Rosa': '#e91e63',
+            'Verde': '#2ecc71',
+            'Dourado': '#f1c40f'
+        }
+        
+        self.setup_ui()
+        
+    def setup_ui(self):
+        # TÃ­tulo
+        title = tk.Label(self.root, text="ðŸŽ¨ GERADOR DE FIGURINHAS REDBUBBLE", 
+                        font=('Arial', 20, 'bold'), fg='white', bg='#2c3e50')
+        title.pack(pady=20)
+        
+        # Frame principal
+        main_frame = tk.Frame(self.root, bg='#2c3e50')
+        main_frame.pack(pady=20, padx=20, fill='both', expand=True)
+        
+        # Esquerda - ConfiguraÃ§Ãµes
+        left_frame = tk.LabelFrame(main_frame, text="ConfiguraÃ§Ãµes", 
+                                  font=('Arial', 12, 'bold'), fg='white', bg='#34495e')
+        left_frame.pack(side='left', fill='y', padx=(0, 10))
+        
+        # Texto
+        tk.Label(left_frame, text="Texto Principal:", font=('Arial', 10), 
+                fg='white', bg='#34495e').pack(pady=5)
+        self.text_main = tk.Text(left_frame, height=3, width=25, font=('Arial', 12))
+        self.text_main.pack(pady=5)
+        
+        tk.Label(left_frame, text="Texto SecundÃ¡rio:", font=('Arial', 10), 
+                fg='white', bg='#34495e').pack(pady=5)
+        self.text_sub = tk.Entry(left_frame, font=('Arial', 12), width=25)
+        self.text_sub.pack(pady=5)
+        
+        # Cores
+        tk.Label(left_frame, text="Cor do Texto:", font=('Arial', 10), 
+                fg='white', bg='#34495e').pack(pady=(20,5))
+        self.color_var = tk.StringVar(value='Branco')
+        color_combo = ttk.Combobox(left_frame, textvariable=self.color_var, 
+                                  values=list(self.colors.keys()), state='readonly')
+        color_combo.pack(pady=5)
+        
+        # Fonte
+        tk.Label(left_frame, text="Estilo da Fonte:", font=('Arial', 10), 
+                fg='white', bg='#34495e').pack(pady=(20,5))
+        self.font_style = tk.StringVar(value='Bold')
+        font_combo = ttk.Combobox(left_frame, textvariable=self.font_style,
+                                 values=['Bold', 'Italic', 'Regular', 'Outline'], state='readonly')
+        font_combo.pack(pady=5)
+        
+        # Tamanho
+        tk.Label(left_frame, text="Tamanho Fonte:", font=('Arial', 10), 
+                fg='white', bg='#34495e').pack(pady=(20,5))
+        self.font_size = tk.Scale(left_frame, from_=20, to=120, orient='horizontal',
+                                bg='#34495e', fg='white', highlightthickness=0)
+        self.font_size.set(60)
+        self.font_size.pack(pady=5)
+        
+        # BotÃ£o imagem de fundo
+        tk.Button(left_frame, text="ðŸ“ Escolher Fundo", command=self.load_background,
+                 bg='#3498db', fg='white', font=('Arial',
+                
